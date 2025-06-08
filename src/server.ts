@@ -1,0 +1,35 @@
+import dotenv from 'dotenv';
+dotenv.config(); 
+
+import express from 'express';
+import http from 'http';
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import compression from 'compression';
+import cors from 'cors';
+import { connectDB } from './db';
+
+const app = express();
+
+app.use(cors({
+    credentials: true,
+}));
+
+app.use(compression());
+app.use(cookieParser());
+app.use(bodyParser.json());
+
+app.get('/health', (req, res) => {
+    res.status(200).send('server is up and running!');
+});
+
+const startServer = async()=>{
+    await connectDB();
+    const server = http.createServer(app);
+
+    server.listen(process.env.PORT || 8080, ()=>{
+    console.log(`Server running on http://localhost:${process.env.PORT}/`);
+});
+} 
+
+startServer();
