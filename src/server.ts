@@ -3,7 +3,6 @@ dotenv.config();
 
 import express from 'express';
 import http from 'http';
-import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import { connectDB } from './db';
@@ -17,17 +16,22 @@ app.use(cors({
 }));
 
 app.use(cookieParser());
-app.use(bodyParser.json());
+app.use(express.json());
 
-app.use(ROUTES.HEALTH, healthRoute);
+app.use(ROUTES.API, healthRoute);
 
 const startServer = async()=>{
-    await connectDB();
-    const server = http.createServer(app);
+    try{
+        await connectDB();
+        const server = http.createServer(app);
 
-    server.listen(process.env.PORT || 8080, ()=>{
-    console.log(`Server running on http://localhost:${process.env.PORT}/`);
-});
+        server.listen(process.env.PORT || 8080, ()=>{
+            console.log(`Server running on http://localhost:${process.env.PORT}/`);
+        });
+    }catch(e){
+        console.error('Failed to start a server: ', e);
+        process.exit(1);
+    }
 } 
 
 startServer();
