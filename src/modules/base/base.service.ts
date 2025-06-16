@@ -1,16 +1,15 @@
-import { Document, Model, UpdateQuery } from 'mongoose';
-import { BaseRepository } from './base.repository';
+import { Document, Model, UpdateQuery } from "mongoose";
+import { BaseRepository } from "./base.repository";
 
 export class BaseService<T extends Document> {
-    constructor(private repo: BaseRepository<T>) {
-    }
+    constructor(private readonly repo: BaseRepository<T>) {}
 
     async getAll(): Promise<T[]> {
-        return this.repo.findAll();
+        return this.repo.getAll();
     }
 
     async getById(id: string): Promise<T | null> {
-        return this.repo.findById(id);
+        return this.repo.getById(id);
     }
 
     async create(data: T): Promise<T> {

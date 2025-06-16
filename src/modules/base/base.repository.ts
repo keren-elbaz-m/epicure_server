@@ -1,13 +1,13 @@
-import { Model, Document } from "mongoose";
+import { Model, Document, UpdateQuery } from "mongoose";
 
-export class BaseRepository <T extends Document>{
-    constructor(private model:Model<T>){}
+export class BaseRepository<T extends Document> {
+    constructor(private readonly model: Model<T>) {}
 
-    async findAll(): Promise<T[]> {
+    async getAll(): Promise<T[]> {
         return this.model.find().exec();
     }
 
-    async findById(id: string): Promise<T | null> {
+    async getById(id: string): Promise<T | null> {
         return this.model.findById(id).exec();
     }
 
@@ -15,7 +15,7 @@ export class BaseRepository <T extends Document>{
         return this.model.create(data);
     }
 
-    async update(id: string, data: Partial<T>): Promise<T | null> {
+    async update(id: string, data: UpdateQuery<T>): Promise<T | null> {
         return this.model.findByIdAndUpdate(id, data, { new: true }).exec();
     }
 
