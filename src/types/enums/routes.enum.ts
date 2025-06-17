@@ -1,5 +1,9 @@
-export enum RoutePath{
-  ROOT= '/',
-  API='/api',
-  HEALTH= '/health',
-};
+export enum RoutePath {
+    ROOT = "/",
+    API = "/api",
+    HEALTH = "/health",
+    RESTAURANTS = "/restaurants",
+    FILTER_POPULAR = "/filter/popular",
+    FILTER_NEW = "/filter/new",
+    FILTER_OPEN = "/filter/open",
+}
