@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { BaseController } from "../base/base.controller";
 import { IRestaurant } from "./restaurant.model";
 import { RestaurantService } from "./restaurant.service";
+import { QueryParamsType } from "../../types/enums/type.enum";
 
 export class RestaurantController extends BaseController<IRestaurant> {
     constructor(private readonly restaurantService: RestaurantService) {
@@ -44,47 +45,32 @@ export class RestaurantController extends BaseController<IRestaurant> {
         }
     };
 
-    getBreakfastDishes = async (req: Request, res: Response): Promise<void> => {
+    getDishesByType = async (req: Request, res: Response): Promise<void> => {
         try {
             const restaurantId = req.params.id;
-            const data = await this.restaurantService.findBreakfastDishes(
-                restaurantId
-            );
-            res.status(200).json({ success: true, data });
-        } catch (e) {
-            res.status(500).json({
-                success: false,
-                message: "Failed to fetch breakfast dishes",
-            });
-        }
-    };
+            const { type } = req.query;
 
-    getLunchDishes = async (req: Request, res: Response): Promise<void> => {
-        try {
-            const restaurantId = req.params.id;
-            const data = await this.restaurantService.findLunchDishes(
-                restaurantId
-            );
-            res.status(200).json({ success: true, data });
-        } catch (e) {
-            res.status(500).json({
-                success: false,
-                message: "Failed to fetch lunch dishes",
-            });
-        }
-    };
+            if (!["breakfast", "lunch", "dinner"].includes(String(type))) {
+                res.status(400).json({
+                    success: false,
+                    message:
+                        "Invalid dish type. Use ?type=breakfast|lunch|dinner",
+                });
+                return;
+            }
 
-    getDinnerDishes = async (req: Request, res: Response): Promise<void> => {
-        try {
-            const restaurantId = req.params.id;
-            const data = await this.restaurantService.findDinnerDishes(
-                restaurantId
+            const data = await this.restaurantService.findDishesByType(
+                restaurantId,
+                String(type) as
+                    | QueryParamsType.BREAKFAST
+                    | QueryParamsType.LUNCH
+                    | QueryParamsType.DINNER
             );
             res.status(200).json({ success: true, data });
         } catch (e) {
             res.status(500).json({
                 success: false,
-                message: "Failed to fetch dinner dishes",
+                message: "Failed to fetch dishes",
             });
         }
     };

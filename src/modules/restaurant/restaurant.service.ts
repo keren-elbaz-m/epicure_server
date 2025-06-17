@@ -1,6 +1,7 @@
 import { BaseService } from "../base/base.service";
 import { IRestaurant } from "./restaurant.model";
 import { RestaurantRepository } from "./restaurant.repository";
+import { QueryParamsType } from "../../types/enums/type.enum";
 
 export class RestaurantService extends BaseService<IRestaurant> {
     constructor(private readonly repository = new RestaurantRepository()) {
@@ -19,15 +20,13 @@ export class RestaurantService extends BaseService<IRestaurant> {
         return this.repository.getOpenRestaurants();
     }
 
-    async findBreakfastDishes(restaurantId: string) {
-        return this.repository.getBreakfastDishes(restaurantId);
-    }
-
-    async findLunchDishes(restaurantId: string) {
-        return this.repository.getLunchDishes(restaurantId);
-    }
-
-    async findDinnerDishes(restaurantId: string) {
-        return this.repository.getDinnerDishes(restaurantId);
+    async findDishesByType(
+        restaurantId: string,
+        type:
+            | QueryParamsType.BREAKFAST
+            | QueryParamsType.LUNCH
+            | QueryParamsType.DINNER
+    ) {
+        return this.repository.getDishesByType(restaurantId, type);
     }
 }

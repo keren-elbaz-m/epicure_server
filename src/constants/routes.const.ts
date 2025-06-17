@@ -15,7 +15,5 @@ export const FILTER_RESTAURANT = {
 };
 
 export const FILTER_DISH = {
-    BREAKFAST: RoutePath.BREAKFAST,
-    LUNCH: RoutePath.LUNCH,
-    DINNER: RoutePath.DINNER,
+    DISHES_BY_TYPE: RoutePath.DISH,
 };

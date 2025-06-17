@@ -3,6 +3,7 @@ import { BaseRepository } from "../base/base.repository";
 import { IRestaurant } from "./restaurant.model";
 import { IDish } from "modules/dish/dish.model";
 import { Document } from "mongoose";
+import { QueryParamsType } from "../../types/enums/type.enum";
 
 export class RestaurantRepository extends BaseRepository<
     IRestaurant & Document
@@ -23,39 +24,20 @@ export class RestaurantRepository extends BaseRepository<
         return this.model.find({ isNewRestaurant: true }).exec();
     }
 
-    async getBreakfastDishes(
-        restaurantId: string
+    async getDishesByType(
+        restaurantId: string,
+        type:
+            | QueryParamsType.BREAKFAST
+            | QueryParamsType.LUNCH
+            | QueryParamsType.DINNER
     ): Promise<
-        (Omit<IRestaurant, "menu"> & { menu: { breakfast: IDish[] } }) | null
+        | (Omit<IRestaurant, "menu"> & { menu: Record<typeof type, IDish[]> })
+        | null
     > {
         return this.model
             .findById(restaurantId)
-            .populate<{ menu: { breakfast: IDish[] } }>("menu.breakfast")
-            .select("menu.breakfast")
-            .exec();
-    }
-
-    async getLunchDishes(
-        restaurantId: string
-    ): Promise<
-        (Omit<IRestaurant, "menu"> & { menu: { lunch: IDish[] } }) | null
-    > {
-        return this.model
-            .findById(restaurantId)
-            .populate<{ menu: { lunch: IDish[] } }>("menu.lunch")
-            .select("menu.lunch")
-            .exec();
-    }
-
-    async getDinnerDishes(
-        restaurantId: string
-    ): Promise<
-        (Omit<IRestaurant, "menu"> & { menu: { dinner: IDish[] } }) | null
-    > {
-        return this.model
-            .findById(restaurantId)
-            .populate<{ menu: { dinner: IDish[] } }>("menu.dinner")
-            .select("menu.dinner")
+            .populate<{ menu: Record<typeof type, IDish[]> }>(`menu.${type}`)
+            .select(`menu.${type}`)
             .exec();
     }
 }

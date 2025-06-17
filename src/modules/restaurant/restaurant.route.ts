@@ -22,13 +22,8 @@ router.get(FILTER_RESTAURANT.NEW, controller.getdNewRestaurants);
 router.get(FILTER_RESTAURANT.OPEN, controller.getOpen);
 
 router.get(
-    `${ROUTES.ROOT}:id${FILTER_DISH.BREAKFAST}`,
-    controller.getBreakfastDishes
-);
-router.get(`${ROUTES.ROOT}:id${FILTER_DISH.LUNCH}`, controller.getLunchDishes);
-router.get(
-    `${ROUTES.ROOT}:id${FILTER_DISH.DINNER}`,
-    controller.getDinnerDishes
+    `${ROUTES.ROOT}:id${FILTER_DISH.DISHES_BY_TYPE}`,
+    controller.getDishesByType
 );
 
 export default router;
