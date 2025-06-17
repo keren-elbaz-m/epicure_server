@@ -43,4 +43,49 @@ export class RestaurantController extends BaseController<IRestaurant> {
             });
         }
     };
+
+    getBreakfastDishes = async (req: Request, res: Response): Promise<void> => {
+        try {
+            const restaurantId = req.params.id;
+            const data = await this.restaurantService.findBreakfastDishes(
+                restaurantId
+            );
+            res.status(200).json({ success: true, data });
+        } catch (e) {
+            res.status(500).json({
+                success: false,
+                message: "Failed to fetch breakfast dishes",
+            });
+        }
+    };
+
+    getLunchDishes = async (req: Request, res: Response): Promise<void> => {
+        try {
+            const restaurantId = req.params.id;
+            const data = await this.restaurantService.findLunchDishes(
+                restaurantId
+            );
+            res.status(200).json({ success: true, data });
+        } catch (e) {
+            res.status(500).json({
+                success: false,
+                message: "Failed to fetch lunch dishes",
+            });
+        }
+    };
+
+    getDinnerDishes = async (req: Request, res: Response): Promise<void> => {
+        try {
+            const restaurantId = req.params.id;
+            const data = await this.restaurantService.findDinnerDishes(
+                restaurantId
+            );
+            res.status(200).json({ success: true, data });
+        } catch (e) {
+            res.status(500).json({
+                success: false,
+                message: "Failed to fetch dinner dishes",
+            });
+        }
+    };
 }

@@ -1,7 +1,11 @@
 import { Router } from "express";
 import { RestaurantController } from "./restaurant.controller";
 import { RestaurantService } from "./restaurant.service";
-import { ROUTES, FILTER_RESTAURANT } from "../../constants/routes.const";
+import {
+    ROUTES,
+    FILTER_RESTAURANT,
+    FILTER_DISH,
+} from "../../constants/routes.const";
 
 const router = Router();
 
@@ -16,5 +20,15 @@ router.delete(`${ROUTES.ROOT}:id`, controller.delete);
 router.get(FILTER_RESTAURANT.POPULAR, controller.getPopular);
 router.get(FILTER_RESTAURANT.NEW, controller.getdNewRestaurants);
 router.get(FILTER_RESTAURANT.OPEN, controller.getOpen);
+
+router.get(
+    `${ROUTES.ROOT}:id${FILTER_DISH.BREAKFAST}`,
+    controller.getBreakfastDishes
+);
+router.get(`${ROUTES.ROOT}:id${FILTER_DISH.LUNCH}`, controller.getLunchDishes);
+router.get(
+    `${ROUTES.ROOT}:id${FILTER_DISH.DINNER}`,
+    controller.getDinnerDishes
+);
 
 export default router;

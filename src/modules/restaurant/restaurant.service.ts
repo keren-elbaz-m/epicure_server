@@ -18,4 +18,16 @@ export class RestaurantService extends BaseService<IRestaurant> {
     async findOpenRestaurants() {
         return this.repository.getOpenRestaurants();
     }
+
+    async findBreakfastDishes(restaurantId: string) {
+        return this.repository.getBreakfastDishes(restaurantId);
+    }
+
+    async findLunchDishes(restaurantId: string) {
+        return this.repository.getLunchDishes(restaurantId);
+    }
+
+    async findDinnerDishes(restaurantId: string) {
+        return this.repository.getDinnerDishes(restaurantId);
+    }
 }
