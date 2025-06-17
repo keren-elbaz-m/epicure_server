@@ -4,8 +4,10 @@ export const ROUTES = {
     ROOT: RoutePath.ROOT,
     API: RoutePath.API,
     HEALTH: RoutePath.HEALTH,
+    UPLOAD: RoutePath.UPLOAD,
     RESTAURANTS: RoutePath.RESTAURANTS,
     DISH: RoutePath.DISH,
+    CHEF: RoutePath.CHEF,
 };
 
 export const FILTER_RESTAURANT = {
