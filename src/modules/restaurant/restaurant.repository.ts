@@ -3,7 +3,7 @@ import { BaseRepository } from "../base/base.repository";
 import { IRestaurant } from "./restaurant.model";
 import { IDish } from "modules/dish/dish.model";
 import { Document } from "mongoose";
-import { QueryParamsType } from "../../types/enums/type.enum";
+import { DishTimeType } from "../../types/enums/dish-time.enum";
 
 export class RestaurantRepository extends BaseRepository<
     IRestaurant & Document
@@ -26,10 +26,7 @@ export class RestaurantRepository extends BaseRepository<
 
     async getDishesByType(
         restaurantId: string,
-        type:
-            | QueryParamsType.BREAKFAST
-            | QueryParamsType.LUNCH
-            | QueryParamsType.DINNER
+        type: DishTimeType.BREAKFAST | DishTimeType.LUNCH | DishTimeType.DINNER
     ): Promise<
         | (Omit<IRestaurant, "menu"> & { menu: Record<typeof type, IDish[]> })
         | null

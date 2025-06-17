@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { BaseController } from "../base/base.controller";
 import { IRestaurant } from "./restaurant.model";
 import { RestaurantService } from "./restaurant.service";
-import { QueryParamsType } from "../../types/enums/type.enum";
+import { DishTimeType } from "../../types/enums/dish-time.enum";
 
 export class RestaurantController extends BaseController<IRestaurant> {
     constructor(private readonly restaurantService: RestaurantService) {
@@ -50,7 +50,13 @@ export class RestaurantController extends BaseController<IRestaurant> {
             const restaurantId = req.params.id;
             const { type } = req.query;
 
-            if (!["breakfast", "lunch", "dinner"].includes(String(type))) {
+            if (
+                ![
+                    DishTimeType.BREAKFAST,
+                    DishTimeType.LUNCH,
+                    DishTimeType.DINNER,
+                ].includes(String(type) as DishTimeType)
+            ) {
                 res.status(400).json({
                     success: false,
                     message:
@@ -62,9 +68,9 @@ export class RestaurantController extends BaseController<IRestaurant> {
             const data = await this.restaurantService.findDishesByType(
                 restaurantId,
                 String(type) as
-                    | QueryParamsType.BREAKFAST
-                    | QueryParamsType.LUNCH
-                    | QueryParamsType.DINNER
+                    | DishTimeType.BREAKFAST
+                    | DishTimeType.LUNCH
+                    | DishTimeType.DINNER
             );
             res.status(200).json({ success: true, data });
         } catch (e) {
