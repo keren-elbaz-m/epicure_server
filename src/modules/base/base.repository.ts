@@ -1,7 +1,7 @@
 import { Model, Document, UpdateQuery } from "mongoose";
 
 export class BaseRepository<T extends Document> {
-    constructor(private readonly model: Model<T>) {}
+    constructor(protected readonly model: Model<T>) {}
 
     async getAll(): Promise<T[]> {
         return this.model.find().exec();
