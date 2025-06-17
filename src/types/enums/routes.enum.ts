@@ -7,4 +7,5 @@ export enum RoutePath {
     FILTER_POPULAR = "/filter/popular",
     FILTER_NEW = "/filter/new",
     FILTER_OPEN = "/filter/open",
+    UPLOAD = "/upload",
 }
