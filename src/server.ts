@@ -8,7 +8,7 @@ import cors from "cors";
 import { connectDB } from "./db";
 import { ROUTES } from "./constants/routes.const";
 import healthRoute from "./routes/health.route";
-import restaurantRoutes from "./modules/restaurant/restaurant.route";
+import apiRouter from "./routes/api.router";
 
 const app = express();
 
@@ -22,7 +22,7 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.use(ROUTES.API, healthRoute);
-app.use(`${ROUTES.API}${ROUTES.RESTAURANTS}`, restaurantRoutes);
+app.use(ROUTES.API, apiRouter);
 
 const startServer = async () => {
     try {
