@@ -5,6 +5,7 @@ export const ROUTES = {
     API: RoutePath.API,
     HEALTH: RoutePath.HEALTH,
     RESTAURANTS: RoutePath.RESTAURANTS,
+    CHEF: RoutePath.CHEF,
 };
 
 export const FILTER_RESTAURANT = {
