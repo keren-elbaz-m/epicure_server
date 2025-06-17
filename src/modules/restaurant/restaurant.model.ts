@@ -1,4 +1,4 @@
-import mongoose, { Schema, model, Document } from "mongoose";
+import mongoose, { Schema, Types, Document } from "mongoose";
 import Joi from "joi";
 
 export interface IRestaurant extends Document {
@@ -15,9 +15,9 @@ export interface IRestaurant extends Document {
         max: number;
     };
     menu: {
-        breakfast: string[];
-        lunch: string[];
-        dinner: string[];
+        breakfast: Types.ObjectId[];
+        lunch: Types.ObjectId[];
+        dinner: Types.ObjectId[];
     };
 }
 
@@ -47,7 +47,7 @@ export const restaurantValidationSchema = {
         chefName: Joi.string(),
         isOpen: Joi.boolean(),
         rating: Joi.number().min(0).max(5),
-        isNew: Joi.boolean(),
+        isNewRestaurant: Joi.boolean(),
         isPopular: Joi.boolean(),
         priceRange: Joi.object({
             min: Joi.number(),
@@ -76,9 +76,11 @@ const RestaurantSchema: Schema = new Schema<IRestaurant>(
         },
         menu: {
             type: {
-                breakfast: { type: [String], default: [] },
-                lunch: { type: [String], default: [] },
-                dinner: { type: [String], default: [] },
+                breakfast: [
+                    { type: mongoose.Schema.Types.ObjectId, ref: "Dish" },
+                ],
+                lunch: [{ type: mongoose.Schema.Types.ObjectId, ref: "Dish" }],
+                dinner: [{ type: mongoose.Schema.Types.ObjectId, ref: "Dish" }],
             },
             default: () => ({ breakfast: [], lunch: [], dinner: [] }),
         },
