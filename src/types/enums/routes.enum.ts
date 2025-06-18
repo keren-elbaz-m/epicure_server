@@ -5,6 +5,7 @@ export enum RoutePath {
     RESTAURANTS = "/restaurants",
     CHEF = "/chef",
     DISH = "/dish",
+    DISHES = "/dishes",
     BREAKFAST = "/breakfast",
     LUNCH = "/lunch",
     DINNER = "/dinner",

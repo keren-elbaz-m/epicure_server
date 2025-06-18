@@ -11,5 +11,5 @@ export const ROUTES = {
 };
 
 export const FILTER_DISH = {
-    DISHES_BY_TYPE: RoutePath.DISH,
+    DISHES_BY_TYPE: RoutePath.DISHES,
 };

@@ -43,4 +43,20 @@ export class RestaurantRepository extends BaseRepository<
             .select(`menu.${type}`)
             .exec();
     }
+
+    async getAllDishes(restaurantId: string) {
+        const restaurant = await this.model
+            .findById(restaurantId)
+            .populate("menu.breakfast menu.lunch menu.dinner")
+            .select("menu")
+            .exec();
+
+        const allDishes = [
+            ...(restaurant?.menu?.breakfast || []),
+            ...(restaurant?.menu?.lunch || []),
+            ...(restaurant?.menu?.dinner || []),
+        ];
+
+        return allDishes;
+    }
 }
