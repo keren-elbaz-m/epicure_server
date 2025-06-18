@@ -24,4 +24,8 @@ export class RestaurantService extends BaseService<IRestaurant> {
     ) {
         return this.repository.getDishesByType(restaurantId, type);
     }
+
+    async findAllDishes(restaurantId: string) {
+        return this.repository.getAllDishes(restaurantId);
+    }
 }

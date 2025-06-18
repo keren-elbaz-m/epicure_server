@@ -55,13 +55,23 @@ export class RestaurantController extends BaseController<IRestaurant> {
             const restaurantId = req.params.id;
             const { type } = req.query;
 
-            if (
-                ![
-                    DishTimeType.BREAKFAST,
-                    DishTimeType.LUNCH,
-                    DishTimeType.DINNER,
-                ].includes(String(type) as DishTimeType)
-            ) {
+            const stringType = String(type);
+
+            const isValidType = [
+                DishTimeType.BREAKFAST,
+                DishTimeType.LUNCH,
+                DishTimeType.DINNER,
+            ].includes(stringType as DishTimeType);
+
+            if (!type) {
+                const data = await this.restaurantService.findAllDishes(
+                    restaurantId
+                );
+                res.status(200).json({ success: true, data });
+                return;
+            }
+
+            if (!isValidType) {
                 res.status(400).json({
                     success: false,
                     message:
@@ -72,11 +82,9 @@ export class RestaurantController extends BaseController<IRestaurant> {
 
             const data = await this.restaurantService.findDishesByType(
                 restaurantId,
-                String(type) as
-                    | DishTimeType.BREAKFAST
-                    | DishTimeType.LUNCH
-                    | DishTimeType.DINNER
+                stringType as DishTimeType
             );
+
             res.status(200).json({ success: true, data });
         } catch (e) {
             res.status(500).json({
