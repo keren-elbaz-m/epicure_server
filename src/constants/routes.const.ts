@@ -8,6 +8,7 @@ export const ROUTES = {
     RESTAURANTS: RoutePath.RESTAURANTS,
     DISH: RoutePath.DISH,
     CHEF: RoutePath.CHEF,
+    WEEKLY: RoutePath.WEEKLY,
 };
 
 export const FILTER_DISH = {

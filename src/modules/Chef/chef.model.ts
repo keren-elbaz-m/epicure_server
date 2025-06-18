@@ -14,6 +14,7 @@ export interface IChef extends Document {
     name: string;
     description: string;
     restaurants: Types.ObjectId[];
+    chefOfTheWeek: boolean;
 }
 
 export const chefValidationSchema = {
@@ -22,6 +23,7 @@ export const chefValidationSchema = {
         name: Joi.string().min(2).required(),
         description: Joi.string().min(5).required(),
         restaurants: Joi.array().items(objectId).required(),
+        chefOfTheWeek: Joi.boolean().default(false),
     }),
 
     update: Joi.object({
@@ -31,6 +33,7 @@ export const chefValidationSchema = {
         isNewRestaurant: Joi.boolean(),
         isPopular: Joi.boolean(),
         restaurants: Joi.array().items(objectId),
+        chefOfTheWeek: Joi.boolean(),
     }),
 };
 
@@ -45,5 +48,6 @@ const ChefSchema: Schema = new Schema<IChef>({
             required: true,
         },
     ],
+    chefOfTheWeek: { type: Boolean, default: false },
 });
 export const ChefModel = mongoose.model<IChef>("Chef", ChefSchema);

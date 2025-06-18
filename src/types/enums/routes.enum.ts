@@ -10,4 +10,5 @@ export enum RoutePath {
     LUNCH = "/lunch",
     DINNER = "/dinner",
     UPLOAD = "/upload",
+    WEEKLY = "/weekly",
 }
