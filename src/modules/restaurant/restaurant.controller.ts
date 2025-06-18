@@ -3,44 +3,49 @@ import { BaseController } from "../base/base.controller";
 import { IRestaurant } from "./restaurant.model";
 import { RestaurantService } from "./restaurant.service";
 import { DishTimeType } from "../../types/enums/dish-time.enum";
+import { RestaurantsConditionsFilter } from "../../types/enums/restaurants-conditions.enum";
 
 export class RestaurantController extends BaseController<IRestaurant> {
     constructor(private readonly restaurantService: RestaurantService) {
         super(restaurantService);
     }
 
-    getPopular = async (req: Request, res: Response): Promise<void> => {
+    getAll = async (req: Request, res: Response): Promise<void> => {
         try {
-            const data = await this.restaurantService.findPopularRestaurants();
-            res.status(200).json({ success: true, data });
-        } catch (e) {
-            res.status(500).json({
-                success: false,
-                message: "Failed to fetch popular restaurants",
-            });
-        }
-    };
+            const rawFilter = req.query.filter;
+            const normalizedFilter =
+                !rawFilter || rawFilter === "" ? undefined : String(rawFilter);
 
-    getdNewRestaurants = async (req: Request, res: Response): Promise<void> => {
-        try {
-            const data = await this.restaurantService.findNewRestaurants();
-            res.status(200).json({ success: true, data });
-        } catch (e) {
-            res.status(500).json({
-                success: false,
-                message: "Failed to fetch new restaurants",
-            });
-        }
-    };
+            const allowedFilters = [
+                RestaurantsConditionsFilter.NEW,
+                RestaurantsConditionsFilter.OPEN,
+                RestaurantsConditionsFilter.POPULAR,
+            ];
 
-    getOpen = async (req: Request, res: Response): Promise<void> => {
-        try {
-            const data = await this.restaurantService.findOpenRestaurants();
+            if (
+                normalizedFilter &&
+                !allowedFilters.includes(
+                    normalizedFilter as RestaurantsConditionsFilter
+                )
+            ) {
+                res.status(400).json({
+                    success: false,
+                    message: "Invalid filter. Use ?filter=popular|new|open",
+                });
+                return;
+            }
+
+            const data = normalizedFilter
+                ? await this.restaurantService.findByFilter(
+                      normalizedFilter as RestaurantsConditionsFilter
+                  )
+                : await this.restaurantService.getAll();
+
             res.status(200).json({ success: true, data });
         } catch (e) {
             res.status(500).json({
                 success: false,
-                message: "Failed to fetch open restaurants",
+                message: "Failed to fetch restaurants",
             });
         }
     };
