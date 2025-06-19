@@ -10,7 +10,7 @@ const controller = new RestaurantController(new RestaurantService());
 router.get(ROUTES.ROOT, controller.getAll);
 router.get(`${ROUTES.ROOT}:id`, controller.getById);
 router.post(ROUTES.ROOT, controller.create);
-router.put(`${ROUTES.ROOT}:id`, controller.update);
+router.patch(`${ROUTES.ROOT}:id`, controller.update);
 router.delete(`${ROUTES.ROOT}:id`, controller.delete);
 
 router.get(
